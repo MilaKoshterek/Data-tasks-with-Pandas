@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+#import matplotlib as mpl
 import os
 import pandas as pd
 
@@ -36,14 +37,17 @@ all_sales_merged['Month'] = all_sales_merged['Month'].astype('int32')
 # Add Sales column
 all_sales_merged['Sales'] = all_sales_merged['Quantity Ordered'] * all_sales_merged['Price Each']
 
-best_month_for_sales = all_sales_merged.groupby('Month').sum()
+best_month_for_sales = all_sales_merged.groupby(['Month']).sum()
+best_month_for_sales = best_month_for_sales[['Sales']]
+print(best_month_for_sales)
 
 
 # Plotting the answer "What was the best month for sales? How much was earned that month?"
 months = range(1, 13)
+best_month_for_sales.plot()
 plt.bar(months, best_month_for_sales['Sales'])
 plt.xticks(months)
-plt.ylabel('Sales in USD')
 plt.xlabel('Month number')
+plt.gca().yaxis.set_major_formatter(plt.matplotlib.ticker.StrMethodFormatter('{x:,.0f}'))
 plt.show()
 
